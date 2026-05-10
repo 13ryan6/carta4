@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi Mami Lore 🌻</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #f5a623;
+    --gold: #e8850a;
+    --warm: #fdf3e1;
+    --brown: #5c3a1e;
+    --green: #5a7a3a;
+    --orange: #e05c1a;
+    --dark: #2c1a08;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #fdf8ef;
+    font-family: 'Lora', serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Fondo textura */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 15%, rgba(245,166,35,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 85%, rgba(224,92,26,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(253,243,225,1) 0%, #fef0d4 100%);
+    z-index: 0;
+  }
+
+  /* Girasoles SVG decorativos */
+  .flower-bg {
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .flower-bg.tl { top: -30px; left: -30px; width: 220px; opacity: 0.18; transform: rotate(-20deg); }
+  .flower-bg.br { bottom: -30px; right: -30px; width: 220px; opacity: 0.18; transform: rotate(160deg); }
+  .flower-bg.tr { top: 20px; right: 40px; width: 120px; opacity: 0.12; transform: rotate(30deg); }
+  .flower-bg.bl { bottom: 60px; left: 30px; width: 120px; opacity: 0.12; transform: rotate(-15deg); }
+
+  /* Partículas */
+  #canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .page {
+    position: relative;
+    z-index: 10;
+    max-width: 700px;
+    width: 95%;
+    margin: 50px auto;
+    padding: 0;
+    animation: slideIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(50px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Header con banner */
+  .header-banner {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--sun) 50%, #f7c34a 100%);
+    padding: 44px 50px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E");
+  }
+
+  .banner-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: bloom 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 12px rgba(92,58,30,0.3));
+  }
+
+  @keyframes bloom {
+    0%, 100% { transform: scale(1) rotate(-3deg); }
+    50% { transform: scale(1.1) rotate(3deg); }
+  }
+
+  .banner-top-text {
+    font-family: 'Lora', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    color: rgba(92,58,30,0.7);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+
+  .banner-sub {
+    font-style: italic;
+    color: rgba(44,26,8,0.75);
+    font-size: 1.1rem;
+  }
+
+  /* Cinta */
+  .ribbon {
+    background: var(--green);
+    color: white;
+    text-align: center;
+    padding: 9px 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-family: 'Lora', serif;
+  }
+
+  /* Cuerpo */
+  .card-body {
+    background: white;
+    padding: 52px 54px 60px;
+    box-shadow: 0 20px 80px rgba(92,58,30,0.15);
+  }
+
+  .greeting {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 28px;
+    animation: fadeInUp 1.4s ease 0.3s both;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  p {
+    color: #4a3520;
+    font-size: 1.08rem;
+    line-height: 1.95;
+    margin-bottom: 22px;
+    text-align: justify;
+    animation: fadeInUp 1.4s ease 0.5s both;
+  }
+
+  .highlight {
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  .italic-highlight {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  /* Citas destacadas */
+  .quote-block {
+    border-left: 4px solid var(--sun);
+    padding: 14px 20px;
+    margin: 28px 0;
+    background: rgba(245,166,35,0.07);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--brown);
+    font-size: 1.1rem;
+    animation: fadeInUp 1.4s ease 0.7s both;
+  }
+
+  /* Cierre */
+  .closing {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 2px dashed rgba(245,166,35,0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    animation: fadeInUp 1.4s ease 0.9s both;
+  }
+
+  .love-note {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--brown);
+  }
+
+  .signature {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* Footer */
+  .card-footer {
+    background: var(--warm);
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(245,166,35,0.3);
+  }
+
+  .footer-icons {
+    font-size: 1.5rem;
+    letter-spacing: 0.4em;
+    display: block;
+    margin-bottom: 6px;
+    animation: spin-hearts 4s linear infinite;
+  }
+
+  @keyframes spin-hearts {
+    0%, 100% { letter-spacing: 0.4em; }
+    50% { letter-spacing: 0.7em; }
+  }
+
+  .footer-text {
+    font-size: 0.78rem;
+    color: var(--brown);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    .card-body { padding: 36px 28px 44px; }
+    .header-banner { padding: 36px 28px 28px; }
+  }
+</style>
+</head>
+<body>
+<!-- Girasoles de fondo SVG -->
+<svg class="flower-bg tl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100,100)">
+    <circle r="30" fill="#5c3a1e"/>
+    <g id="petals">
+      <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(0)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(45)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(90)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(135)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(180)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(225)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(270)"/>
+      <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(315)"/>
+    </g>
+    <circle r="30" fill="#5c3a1e"/>
+    <circle r="20" fill="#3d2510"/>
+  </g>
+</svg>
+<svg class="flower-bg br" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100,100)">
+    <circle r="30" fill="#5c3a1e"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(0)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(45)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(90)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(135)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(180)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(225)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#f5a623" transform="rotate(270)"/>
+    <ellipse ry="40" rx="14" cy="-52" fill="#e8850a" transform="rotate(315)"/>
+    <circle r="30" fill="#5c3a1e"/>
+    <circle r="20" fill="#3d2510"/>
+  </g>
+</svg>
+
+<canvas id="canvas"></canvas>
+
+<div class="page">
+  <div class="header-banner">
+    <div class="banner-top-text">Feliz Día de las Madres · 2025</div>
+    <span class="banner-emoji">🌻</span>
+    <h1>Para mi Mami Lore</h1>
+    <div class="banner-sub">la mujer que me dio todo</div>
+  </div>
+  <div class="ribbon">✨ &nbsp; con amor eterno &nbsp; ✨</div>
+
+  <div class="card-body">
+    <div class="greeting">Mami querida,</div>
+
+    <p>
+      Hay palabras que uno aprende desde pequeño y las repite sin comprender del todo su peso. "Gracias", "te quiero", "mamá". Pero hoy, mientras escribo esto, entiendo que ninguna de esas palabras es lo suficientemente grande para todo lo que tú representas en mi vida. <span class="highlight">Tú eres la razón de quien soy.</span>
+    </p>
+
+    <div class="quote-block">
+      "Una madre es el hogar al que volvemos cuando estamos cansados del mundo."
+    </div>
+
+    <p>
+      Me enseñaste a levantarme cuando me caí, a no rendirme cuando el camino se puso difícil, a creer en mí mismo aunque yo fuera el último en hacerlo. Cada sacrificio que hiciste, cada noche de desvelo, cada abrazo a tiempo: todo eso me construyó. <span class="italic-highlight">Eres mi mayor inspiración.</span>
+    </p>
+
+    <p>
+      Sé que no siempre soy el mejor para decirlo con palabras, que a veces el tiempo pasa y no te lo digo tan seguido como quisiera. Pero quiero que sepas que todos los días, en cada cosa que hago, llevo todo lo que me diste. Tu fuerza, tu fe, tu amor. <span class="highlight">Todo eso vive en mí y no me lo quita nadie.</span>
+    </p>
+
+    <p>
+      Gracias por existir, mami. Gracias por elegirme, por cuidarme, por estar. Este día es tuyo, mereces flores reales y el mundo entero aplaudiéndote. Pero ya que no puedo darte todo eso en este momento, al menos quiero que tengas esto: <span class="italic-highlight">mi corazón partido en palabras, solo para ti.</span>
+    </p>
+
+    <div class="closing">
+      <div class="love-note">Con todo el amor del mundo 🌻</div>
+      <div class="signature">Tu Andrés 💛</div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <span class="footer-icons">🌻 💛 🌻 💛 🌻</span>
+    <div class="footer-text">Feliz Día de las Madres, Mami</div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : -10;
+      this.type = Math.random() < 0.6 ? 'petal' : 'star';
+      this.size = this.type === 'petal' ? 4 + Math.random() * 7 : 2 + Math.random() * 3;
+      this.speedY = 0.5 + Math.random() * 1;
+      this.speedX = (Math.random() - 0.5) * 0.6;
+      this.swing = Math.random() * Math.PI * 2;
+      this.angle = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random()-0.5) * 0.04;
+      this.alpha = 0.35 + Math.random() * 0.45;
+      const sunColors = ['#f5a623','#f7c34a','#e8850a','#5a7a3a','#e05c1a'];
+      this.color = sunColors[Math.floor(Math.random() * sunColors.length)];
+    }
+    update() {
+      this.swing += 0.018;
+      this.x += this.speedX + Math.sin(this.swing) * 0.5;
+      this.y += this.speedY;
+      this.angle += this.rotSpeed;
+      if (this.y > canvas.height + 20) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      if (this.type === 'petal') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 0.4, this.size, 0, 0, Math.PI * 2);
+      } else {
+        // estrellita
+        for (let i = 0; i < 5; i++) {
+          const a = (i * Math.PI * 2) / 5 - Math.PI / 2;
+          const r = this.size;
+          const x = Math.cos(a) * r;
+          const y = Math.sin(a) * r;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          const a2 = a + Math.PI / 5;
+          ctx.lineTo(Math.cos(a2) * r * 0.4, Math.sin(a2) * r * 0.4);
+        }
+        ctx.closePath();
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const particles = Array.from({ length: 50 }, () => new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+</body>
+</html>
